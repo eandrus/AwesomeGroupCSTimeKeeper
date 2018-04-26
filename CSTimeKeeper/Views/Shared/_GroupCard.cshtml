@@ -1,0 +1,28 @@
+﻿@model CSTimeKeeper.Models.Group
+
+@inject UserManager<User> userManager
+
+@{
+    var currentUser = await userManager.GetUserAsync(User);
+}
+
+<div class="card-project col-md-12" style="padding: 10px; margin: 20px; border: 12px double darkcyan;">
+    <div class="chart-div col-md-5" style="min-height: 200px; min-width: 200px;">
+        @if (Model.TotalHours > 0)
+        {
+            <canvas class="chart-area" id="@Model.PieChart"></canvas>
+        }
+        else
+        {
+            <p style="font-size: 85%; font-weight:bold; text-align:center; margin-top: 20px; background-color:greenyellow">No group member data<br />For pie chart</p>
+        }
+    </div>
+    <div class="card-project-body col-md-7">
+        <div style="padding: 10px; margin: 20px; float:right;">
+            <a class="btn btn-default" style="background-color: darkcyan; font-weight: bold; border: 2px dashed black; color: white;" asp-controller="GroupMembers" asp-action="Index" asp-route-id="@Model.Id">View GroupMembers</a>
+        </div>
+        <h2>@Model.Name</h2>
+        <p>@Model.Project.Name</p>
+
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿body {
+    padding-top: 60px;
+    padding-bottom: 20px;
+    background-color: aliceblue;
+    background: -moz-linear-gradient(left, #afcaea 0%, #ccd9e8 30%, #ccd9e8 70%, #afcaea 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #afcaea 0%,#ccd9e8 30%,#ccd9e8 70%,#afcaea 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #afcaea 0%,#ccd9e8 30%,#ccd9e8 70%,#afcaea 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#afcaea', endColorstr='#afcaea',GradientType=1 ); /* IE6-9 */
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.navbar {
+    background-color: #273449;
+    background: -moz-linear-gradient(top, #1b2331 0%, #273449 30%, #273449 70%, #1b2331 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #1b2331 0%, #273449 30%, #273449 70%, #1b2331 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #1b2331 0%, #273449 30%, #273449 70%, #1b2331 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b2331', endColorstr='#1b2331',GradientType=0 ); /* IE6-9 */
+}
+
+    .navbar .nav li a {
+        color: #dbecff;
+    }
+
+        .navbar .nav li a:hover {
+            color: #81baf8;
+        }
+
+    .navbar .nav li .btn-link {
+        color: #e2701a;
+        font-weight: bold;
+    }
+
+        .navbar .nav li .btn-link:hover {
+            color: #f8b64e;
+            text-decoration: none;
+        }
+
+a {
+    color: #4c008f;
+    font-weight: bold;
+}
+
+    a:hover {
+        color: #0070a9;
+        text-decoration: none;
+    }
+
+.btn-success, .btn-danger, .btn-primary {
+    color: #e4f5fc;
+    font-weight: 600;
+}
+
+.student-card {
+    border: 2px groove lightgray;
+    padding: 10px;
+}
+
+.student-group-name {
+    font-size: 22px;
+    font-weight: bold;
+    color: darkgreen;
+}
+
+.student-project-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: darkblue;
+}
+
+.student-course-name {
+    font-size: 16px;
+    color: rebeccapurple;
+}
+
+.student-card-btn {
+    width: 100%;
+    margin: auto;
+}
+
+.notification-list {
+    font-size: 24px;
+    font-weight: bold;
+    list-style: none;
+    padding-left: 0px;
+}
+
+    .notification-list li {
+        font-size: 16px;
+        margin: 10px;
+        margin-left: 25px;
+    }

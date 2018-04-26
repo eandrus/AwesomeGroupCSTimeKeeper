@@ -1,0 +1,43 @@
+﻿@model CSTimeKeeper.Models.TimeEntry
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>TimeEntry</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Student Name</label>
+                <select asp-for="GroupMemberId" class ="form-control" asp-items="ViewBag.GroupMemberId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Justification" class="control-label"></label>
+                <input asp-for="Justification" class="form-control" />
+                <span asp-validation-for="Justification" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StopTime" class="control-label"></label>
+                <input asp-for="StopTime" class="form-control" />
+                <span asp-validation-for="StopTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

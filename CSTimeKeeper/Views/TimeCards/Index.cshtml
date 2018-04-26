@@ -1,0 +1,71 @@
+﻿@model TimeCardsViewModel
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Title"] = "Index";
+    var currentUser = await userManager.GetUserAsync(User);
+}
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+<h2>Time Card for @Model.GroupMember.Student.FullName</h2>
+
+@if(@currentUser.Administrator || @currentUser.Instructor || @Model.GroupMember.StudentId == @currentUser.Id)
+{
+    <p>
+        <a class="btn btn-default" asp-action="Create" asp-route-id="@Model.GroupMember.Id">Add New Time Entry</a>
+    </p>
+}
+<p>
+	<a class="btn btn-default" asp-controller="GroupMembers" asp-action="Index" asp-route-id="@Model.GroupMember.GroupId">Back to Group Members</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Justification
+            </th>
+            <th>
+                Start Time
+            </th>
+            <th>
+                Stop Time
+            </th>
+            <th>
+                Total Hours
+            </th>
+            <th>
+                Created Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.GroupMember.TimeEntries)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Justification)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StopTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+				<td>
+					@if (@currentUser.Administrator || @currentUser.Instructor)
+					{
+						<a class="btn btn-default" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+						<a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+					}
+				</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,91 @@
+﻿@model CSTimeKeeper.Models.StudentDashViewModel
+@{
+    ViewData["Title"] = "Student Dashboard";
+}
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<div>
+    @if (Model.ActiveCourses.Count < 1)
+    {
+        <h4>
+            You are not registered in any courses. Go to the
+            <a asp-controller="Courses" asp-action="Index">Courses</a>
+            page to register for a course.
+        </h4>
+    }
+    else
+    {
+        <h3>My Courses</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Course Name
+                    </th>
+                    <th>
+                        Instructor
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ActiveCourses)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Course.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Course.Instructor.FullName)
+                        </td>
+                        <td>
+                            <a asp-controller="Projects" asp-action="Index" asp-route-id="@item.CourseId">View Projects</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <br />
+    @if (Model.ActiveGroups.Count > 0)
+    {
+        <h2>My Groups</h2>
+
+        @foreach (GroupMember item in Model.ActiveGroups)
+        {
+            <div class="row">
+                <div class="student-card col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="student-group-name">@item.Group.Name</div>
+                            <div class="student-project-name">@item.Project.Name</div>
+                            <div class="student-course-name">@item.Project.Course.Name</div>
+                            <br />
+                            <a class="btn btn-default student-card-btn" asp-controller="TimeCards" asp-action="Index" asp-route-id="@item.Id">View My TimeCard</a>
+                            <a class="btn btn-default student-card-btn" asp-controller="GroupMembers" asp-action="Index" asp-route-id="@item.GroupId">View Group Members</a>
+                            <a class="btn btn-default student-card-btn" asp-controller="Groups" asp-action="Index" asp-route-id="@item.ProjectId">View Project Groups</a>
+                        </div>
+                        @if (item.Project.TotalHours > 0)
+                        {
+                            <div class="chart-div col-md-4" style="min-height: 200px; min-width: 200px;">
+                                <canvas class="chart-area" id="@item.Project.PieChart"></canvas>
+                            </div>
+                        }
+
+                        @if (item.Group.TotalHours > 0)
+                        {
+                            <div class="chart-div col-md-4" style="min-height: 200px; min-width: 200px;">
+                                <canvas class="chart-area" id="@item.Group.PieChart"></canvas>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

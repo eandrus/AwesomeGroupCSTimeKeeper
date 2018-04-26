@@ -1,0 +1,38 @@
+﻿@model GroupsViewModel
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Groups for Project: " + Model.Project.Name;
+    var currentUser = await UserManager.GetUserAsync(User);
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<h2>@Model.Project.Name - Groups</h2>
+
+<div>
+
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <a style="width: 100%" class="btn btn-default" asp-controller="Projects" asp-action="Index" asp-route-id="@Model.Project.CourseId">Back to Projects</a><br />
+        <a style="width: 100%" class="btn btn-default" asp-action="Create" asp-route-id="@Model.Project.Id">Create New Group</a><br />
+    </div>
+    <div class="chart-div col-md-5">
+        @if (Model.Project.TotalHours > 0)
+        {
+            <canvas class="chart-area" id="@Model.Project.PieChart"></canvas>
+        }
+        else
+        {
+            <p style="font-size: 85%; font-weight:bold; text-align:center; margin-top: 20px">No Data<br />For Chart</p>
+        }
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+@foreach (Group group in Model.Groups)
+{
+    @Html.Partial("_GroupCard", group)
+}

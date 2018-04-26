@@ -1,0 +1,40 @@
+﻿@model AdminDashViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+@{
+    <ul class="notification-list">
+        Notifications
+        @if (Model.InstructorRequestCount + Model.StudentRequestCount > 0)
+        {
+
+            if (Model.StudentRequestCount > 0)
+            {
+                <li>
+                    <span style="color: orangered">@Model.StudentRequestCount </span>
+                    <a asp-area="" asp-controller="Courses" asp-action="CourseRequests" title="Approve Student Course Requests">
+                        Pending Student Course Requests
+                    </a>
+                </li>
+            }
+            if (Model.InstructorRequestCount > 0)
+            {
+                <li>
+                    <span style="color: orangered">@Model.InstructorRequestCount </span>
+                    <a asp-area="" asp-controller="UserAdmin" asp-action="InstructorRequests" title="Approve New Instructors">
+                        Pending Instructor Account Requests
+                    </a>
+                </li>
+            }
+        }
+        else
+        {
+            <li>No Notifications</li>
+        }
+    </ul>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

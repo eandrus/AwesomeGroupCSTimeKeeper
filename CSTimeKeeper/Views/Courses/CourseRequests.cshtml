@@ -1,0 +1,56 @@
+﻿@model CourseRequestsViewModel
+@{
+    ViewData["Title"] = "CourseRequests";
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<h2>Student Course Registration Requests</h2>
+
+@if (Model.Requests.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Course
+                </th>
+                <th>
+                    Instructor
+                </th>
+                <th>
+                    Student Name
+                </th>
+                <th>
+                    Student UserName
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Requests)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.Instructor.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.UserName)
+                    </td>
+                    <td>
+                        <a class="btn btn-success" asp-action="ApproveRequest" asp-route-id="@item.Id" title="Approve This Request">Approve</a>
+                        <a class="btn btn-danger" asp-action="DenyRequest" asp-route-id="@item.Id" title="Deny This Request">Deny</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <a class="btn btn-success" asp-action="ApproveAllRequests">Approve All Requests</a>
+}

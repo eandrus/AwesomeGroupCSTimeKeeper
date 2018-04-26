@@ -1,0 +1,26 @@
+﻿@model ProjectsViewModel
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Projects for Course: " + Model.Course.Name;
+    var currentUser = await UserManager.GetUserAsync(User);
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<h2>@Model.Course.Name - Projects</h2>
+
+@if (currentUser.Administrator || Model.Course.InstructorId == currentUser.Id)
+{
+    <p>
+        <a asp-action="Create" asp-route-id="@Model.Course.Id">Create New</a>
+    </p>
+}
+
+@foreach (Project project in Model.Projects)
+{
+    @Html.Partial("_ProjectCard", project)
+}
+
+<link rel="stylesheet" href="~/css/projects.css" asp-append-version="true"/>

@@ -1,0 +1,33 @@
+﻿@model CSTimeKeeper.Models.Project
+
+@inject UserManager<User> userManager
+
+@{
+    var currentUser = await userManager.GetUserAsync(User);
+    var activeClass = Model.Active ? "" : "card-inactive";
+}
+
+<div class="card-project @activeClass col-md-12">
+    <div class="chart-div col-md-5" style="min-height: 200px; min-width: 200px;">
+        @if (Model.TotalHours > 0)
+        {
+            <canvas class="chart-area" id="@Model.PieChart"></canvas>
+        }
+        else
+        {
+            <p style="font-size: 85%; font-weight:bold; text-align:center; margin-top: 20px">No Data<br />For Chart</p>
+        }
+    </div>
+    <div class="card-project-body col-md-5">
+        <h2>@Model.Name</h2>
+        <p>@Model.Description</p>
+    </div>
+    <div class="card-project-buttons col-md-2">
+        <a class="btn btn-project" asp-controller="Groups" asp-action="Index" asp-route-id="@Model.Id">View Groups</a>
+        @if (currentUser.Administrator || Model.Course.InstructorId == currentUser.Id)
+        {
+            <a class="btn btn-project" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            <a class="btn btn-project" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+        }
+    </div>
+</div>

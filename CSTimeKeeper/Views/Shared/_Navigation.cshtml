@@ -1,0 +1,13 @@
+﻿@model IEnumerable<NavigationLink>
+
+<div class="navigation-container">
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        if (i == 0)
+        {
+            <span class="navigation-separator"> > </span>
+        }
+
+        <a class="navigation-link" asp-controller="@Model.ElementAt(i).Controller" asp-action="@Model.ElementAt(i).Action">@Model.ElementAt(i).Label</a>
+    }
+</div>

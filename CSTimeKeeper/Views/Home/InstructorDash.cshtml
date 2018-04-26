@@ -1,0 +1,78 @@
+﻿@model CSTimeKeeper.Models.InstructorDashViewModel
+@{
+    ViewData["Title"] = "Instructor Dashboard";
+}
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+@if (Model.Instructor.Verified)
+{
+    <div>
+        @if (Model.CourseRegistrations > 0)
+        {<ul class="notification-list">
+                Notifications
+                <li>
+                    <span style="color: orangered">@Model.CourseRegistrations</span>
+                    <a asp-area="" asp-controller="Courses" asp-action="CourseRequests" title="Approve Student Course Requests">
+                        Pending Student Course Requests
+                    </a>
+                </li>
+            </ul>
+            <br/><br/>
+        }
+
+
+        <h3>My Active Courses</h3>
+        @if (Model.ActiveCourses.Count > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Course Name
+                        </th>
+                        <th>
+                            Students Registered
+                        </th>
+                        <th>
+                            Project Count
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ActiveCourses)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Students.Count)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Projects.Count)
+                            </td>
+                            <td>
+                                <a class="btn btn-default" asp-controller="Projects" asp-action="Index" asp-route-id="@item.Id">View Projects</a>
+                                <a class="btn btn-default" asp-controller="Courses" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-danger" asp-controller="Courses" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>You have no active courses</p>
+        }
+        <a class="btn btn-default" asp-controller="Courses" asp-action="Create">Create New Course</a>
+    </div>
+} else
+{
+    <h4>Your Instructor account is pending approval. Please contact an Administrator to approve your account.</h4>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

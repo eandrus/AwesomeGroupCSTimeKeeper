@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using CSTimeKeeper.Models
+@using CSTimeKeeper.Data
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject TimeKeeperDbContext context
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var appUser = await UserManager.GetUserAsync(User);
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            @if (appUser.Instructor || appUser.Administrator)
+            {
+                int newStudents;
+                if (appUser.Administrator)
+                {
+                    newStudents = context.StudentCourse.Where(c => !c.Approved).ToList().Count;
+                }
+
+                else
+                {
+                    newStudents = context.StudentCourse.Where(c => !c.Approved && c.Course.InstructorId.Equals(appUser.Id)).ToList().Count;
+                }
+
+
+                if (newStudents > 0)
+                {
+                    <li>
+                        <a asp-area="" asp-controller="Courses" asp-action="CourseRequests" title="Approve Student Course Requests">
+                            Course Requests <span style="color: orangered">@newStudents</span>
+                        </a>
+                    </li>
+                }
+            }
+            @if (appUser.Administrator)
+            {
+                var newInstructors = context.User.Where(u => u.Instructor && !u.Verified).ToList().Count;
+                if (newInstructors > 0)
+                {
+                    <li>
+                        <a asp-area="" asp-controller="UserAdmin" asp-action="InstructorRequests" title="Approve New Instructors">
+                            Instructor Requests <span style="color: orangered">@newInstructors</span>
+                        </a>
+                    </li>
+                }
+                <li>
+                    <a asp-area="" asp-controller="UserAdmin" asp-action="Index" title="Manage Users">
+                        User Admin
+                    </a>
+                </li>
+            }
+            <li>
+                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage Yourself">
+                    @appUser.FirstName @appUser.LastName
+                </a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+    </ul>
+}

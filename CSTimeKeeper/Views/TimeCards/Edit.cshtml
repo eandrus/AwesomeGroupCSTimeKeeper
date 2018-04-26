@@ -1,0 +1,59 @@
+﻿@model CSTimeKeeper.Models.TimeEntry
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>TimeEntry</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="GroupMemberId" class="control-label"></label>
+                <select asp-for="GroupMemberId" class="form-control" asp-items="ViewBag.GroupMemberId"></select>
+                <span asp-validation-for="GroupMemberId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Justification" class="control-label"></label>
+                <input asp-for="Justification" class="form-control" />
+                <span asp-validation-for="Justification" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StopTime" class="control-label"></label>
+                <input asp-for="StopTime" class="form-control" />
+                <span asp-validation-for="StopTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" readonly/>
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" readonly/>
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

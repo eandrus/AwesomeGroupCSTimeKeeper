@@ -1,0 +1,42 @@
+﻿@model CSTimeKeeper.Models.GroupMember
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GroupMember</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Group)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Group.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Student)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Student.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentCourse)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentCourse.StudentId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <!--<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |-->
+    <a asp-action="Index">Back to List</a>
+</div>

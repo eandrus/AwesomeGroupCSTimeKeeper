@@ -1,0 +1,81 @@
+﻿@model GroupMembersViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<h2>Group Members for @Model.group.Name</h2>
+<div class="row">
+    <div class="col-md-3">
+        <a style="width: 100%" class="btn btn-default" asp-controller="Groups" asp-action="Index" asp-route-id="@Model.group.ProjectId">Back to Groups</a>
+        @if (!Model.currentUser.Administrator && !Model.currentUser.Instructor)
+        {
+            if (!Model.userInGroup)
+            {
+                <a style="width: 100%" class="btn btn-default" asp-action="Create" asp-route-id="@Model.group.Id">Join this Group</a>
+            }
+        }
+        else
+        {
+            <a style="width: 100%" class="btn btn-default" asp-action="Create" asp-route-id="@Model.group.Id">Add Student</a>
+        }
+    </div>
+    <div class="chart-div col-md-5">
+        @if (Model.group.TotalHours > 0)
+        {
+            <canvas class="chart-area" id="@Model.group.PieChart"></canvas>
+        }
+        else
+        {
+            <p style="font-size: 85%; font-weight:bold; text-align:center; margin-top: 20px">No Data<br />For Chart</p>
+        }
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row" style="margin-top: 35px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Student Name
+                </th>
+                <th>
+                    Number of Time Entries
+                </th>
+                <th>
+                    Total Hours Logged
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.group.Members)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TimeEntries.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalHours)
+                    </td>
+                    <td>
+                        <a class="btn btn-default" asp-controller="TimeCards" asp-action="Index" asp-route-id="@item.Id">View TimeCard</a>
+                        @if (Model.currentUser.Administrator)
+                        {
+                            <a class="btn btn-danger" asp-action="Delete" ifp-route-id="@item.Id">Delete</a>
+
+                        }
+                        @if (Model.currentUser.Administrator || Model.currentUser.Instructor)
+                        {
+                            <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

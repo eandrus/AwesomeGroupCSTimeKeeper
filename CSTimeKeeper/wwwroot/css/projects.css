@@ -1,0 +1,18 @@
+﻿
+.card-project {
+    padding: 10px;
+    margin: 20px;
+    border: 3px ridge rgba(72, 93, 134, 0.75);
+}
+
+.btn-project {
+    width: 90%;
+    height: 30%;
+    margin: 5%;
+    color: rgb(0, 40, 137);
+    border: 2px ridge rgba(0, 40, 137, 0.45);
+}
+
+    .btn-project:hover {
+        background: rgb(88, 135, 167)
+    }

@@ -1,0 +1,230 @@
+﻿@model CSTimeKeeper.Models.CoursesViewModel
+
+@{
+    ViewData["Title"] = "Courses";
+}
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+@if (Model.CurrentUser.Administrator || (Model.CurrentUser.Instructor && Model.CurrentUser.Verified))
+{
+    <p>
+        <br /><a class="btn btn-default" asp-action="Create">Create New Course</a>
+    </p>
+}
+else if (Model.CurrentUser.Instructor)
+{
+    <p class="text-danger">
+        <br />You cannot create a course until your account is verified by an administrator.
+    </p>
+}
+
+@if (Model.MyCourses.Count > 0)
+{
+    /******************** MY COURSES ********************/
+    <br />
+    <h3>My Courses</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Course Name
+                </th>
+                <th>
+                    Instructor
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MyCourses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instructor.FullName)
+                    </td>
+                    <td>
+                        <a class="btn btn-default" asp-controller="Projects" asp-action="Index" asp-route-id="@item.Id">View Projects</a>
+                        @if (item.InstructorId == Model.CurrentUser.Id)
+                        {
+                            <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.PendingRegistrations.Count > 0)
+{
+    /******************** MY PENDING COURSES ********************/
+    <br />
+    <h3>My Pending Registrations</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Course Name
+                </th>
+                <th>
+                    Instructor
+                </th>
+                <th>
+                    Date Registered
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PendingRegistrations)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instructor.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.AvailableCourses.Count > 0)
+{
+    /******************** AVAILABLE COURSES ********************/
+    <br />
+    <h3>Available Courses</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Course Name
+                </th>
+                <th>
+                    Instructor
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AvailableCourses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instructor.FullName)
+                    </td>
+                    <td>
+                        @if (Model.CurrentUser.Administrator)
+                        {
+                            <a class="btn btn-default" asp-controller="Projects" asp-action="Index" asp-route-id="@item.Id">View Projects</a>
+                            <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                        else if (!Model.CurrentUser.Instructor)
+                        {
+                            <a class="btn btn-default" asp-action="Register" asp-route-id="@item.Id">Register</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@if (Model.MyPastCourses.Count > 0)
+{
+    /******************** MY PAST(INACTIVE) COURSES ********************/
+    <br />
+    <h3>My Past Courses</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Course Name
+                </th>
+                <th>
+                    Instructor
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MyPastCourses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instructor.FullName)
+                    </td>
+                    <td>
+                        @if (item.InstructorId == Model.CurrentUser.Id || Model.CurrentUser.Administrator)
+                        {
+                            <a class="btn btn-default" asp-controller="Projects" asp-action="Index" asp-route-id="@item.Id">View Projects</a>
+                            <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                        else if (!Model.CurrentUser.Instructor)
+                        {
+                            <a class="btn btn-default" asp-action="Register" asp-route-id="@item.Id">Register</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.PastCourses.Count > 0)
+{
+    /******************** PAST(INACTIVE) COURSES ********************/
+    <br />
+    <h3>Past Courses</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Course Name
+                </th>
+                <th>
+                    Instructor
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PastCourses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instructor.FullName)
+                    </td>
+                    <td>
+                        @if (Model.CurrentUser.Administrator)
+                        {
+                            <a class="btn btn-default" asp-controller="Projects" asp-action="Index" asp-route-id="@item.Id">View Projects</a>
+                            <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
